@@ -4,8 +4,6 @@ import type { IProductRepository } from '../../domain/contracts/product-reposito
 import type { ICreateProductDTO } from '../../domain/contracts/dtos/create-product.dto';
 import type { IProductResponseDTO } from '../../domain/contracts/dtos/product-response.dto';
 import { Product } from '../../domain/entities/product.entity';
-import { Price } from '../../domain/value-objects/price.value-object';
-import { ProductCode } from '../../domain/value-objects/product-code.value-object';
 import { DuplicateProductCodeError } from '../../domain/errors/duplicate-product-code.error';
 import { PRODUCT_TOKENS } from '../config/tokens';
 
@@ -22,16 +20,13 @@ export class CreateProductUseCase implements ICreateProductUseCase {
       throw new DuplicateProductCodeError(input.sku);
     }
 
-    const price = Price.create(input.price, input.currency);
-    const productCode = ProductCode.create(input.sku);
-
     const product = Product.create(
       crypto.randomUUID(),
       input.name,
       input.description,
-      productCode,
-      price,
+      input.price,
       input.stock,
+      input.sku,
       input.categoryId,
     );
 
@@ -45,9 +40,8 @@ export class CreateProductUseCase implements ICreateProductUseCase {
       id: product.id,
       name: product.name,
       description: product.description,
-      sku: product.sku.getValue(),
-      price: product.price.value,
-      currency: product.price.currency,
+      sku: product.sku,
+      price: product.price,
       formattedPrice: product.getFormattedPrice(),
       stock: product.stock,
       categoryId: product.categoryId,
