@@ -9,6 +9,7 @@ import {
   INFRASTRUCTURE_TOKENS,
 } from '../application/config/tokens';
 import { typeOrmConfig } from './config/typeorm.config';
+import { ProductModule } from './modules/product.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { typeOrmConfig } from './config/typeorm.config';
       envFilePath: '.env',
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
+    ProductModule,
   ],
   controllers: [HealthController],
   providers: [
