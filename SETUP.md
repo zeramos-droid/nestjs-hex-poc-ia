@@ -39,12 +39,22 @@ npm install
 docker-compose -f docker-compose.products.yml up -d
 ```
 
-3. **Start the application**:
+3. **Run migrations**:
+```bash
+npm run migration:run
+```
+
+4. **Seed database (optional)**:
+```bash
+npm run seed
+```
+
+5. **Start the application**:
 ```bash
 npm run start:dev
 ```
 
-4. **Access Swagger**:
+6. **Access Swagger**:
 - Open browser: http://localhost:3000/api
 - API running on: http://localhost:3000
 

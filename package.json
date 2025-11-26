@@ -23,6 +23,7 @@
     "migration:generate": "npm run typeorm -- migration:generate -d src/infrastructure/config/typeorm.config.ts",
     "migration:run": "npm run typeorm -- migration:run -d src/infrastructure/config/typeorm.config.ts",
     "migration:revert": "npm run typeorm -- migration:revert -d src/infrastructure/config/typeorm.config.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/infrastructure/seeders/run-seeders.ts",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f"
