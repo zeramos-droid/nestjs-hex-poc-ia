@@ -98,12 +98,14 @@ export class ProductRepository implements IProductRepository {
 
     return {
       data: products.map((product) => this.toDTO(product)),
-      page,
-      pageSize,
-      totalItems: total,
-      totalPages: Math.ceil(total / pageSize),
-      hasNextPage: page < Math.ceil(total / pageSize),
-      hasPreviousPage: page > 1,
+      meta: {
+        page,
+        pageSize,
+        totalItems: total,
+        totalPages: Math.ceil(total / pageSize),
+        hasNextPage: page < Math.ceil(total / pageSize),
+        hasPreviousPage: page > 1,
+      },
     };
   }
 
@@ -153,9 +155,10 @@ export class ProductRepository implements IProductRepository {
 
   async findByCategoryPaginated(
     categoryId: string,
-    page: number,
-    pageSize: number,
+    filters: IProductFiltersDTO,
   ): Promise<IPaginationResultDTO<IProductResponseDTO>> {
+    const page = filters.page || 1;
+    const pageSize = filters.pageSize || 10;
     const skip = (page - 1) * pageSize;
     const [entities, total] = await this.repository.findAndCount({
       where: { categoryId },
@@ -167,12 +170,14 @@ export class ProductRepository implements IProductRepository {
 
     return {
       data: products.map((product) => this.toDTO(product)),
-      page,
-      pageSize,
-      totalItems: total,
-      totalPages: Math.ceil(total / pageSize),
-      hasNextPage: page < Math.ceil(total / pageSize),
-      hasPreviousPage: page > 1,
+      meta: {
+        page,
+        pageSize,
+        totalItems: total,
+        totalPages: Math.ceil(total / pageSize),
+        hasNextPage: page < Math.ceil(total / pageSize),
+        hasPreviousPage: page > 1,
+      },
     };
   }
 
@@ -180,8 +185,11 @@ export class ProductRepository implements IProductRepository {
     return await this.repository.count({ where: { categoryId } });
   }
 
-  async bulkUpdatePrices(categoryId: string, percentage: number): Promise<void> {
-    await this.repository
+  async bulkUpdatePrices(
+    categoryId: string,
+    percentage: number,
+  ): Promise<number> {
+    const result = await this.repository
       .createQueryBuilder()
       .update(ProductEntity)
       .set({
@@ -190,6 +198,8 @@ export class ProductRepository implements IProductRepository {
       })
       .where('categoryId = :categoryId', { categoryId })
       .execute();
+
+    return result.affected || 0;
   }
 
   async updateStock(productId: string, newStock: number): Promise<Product> {

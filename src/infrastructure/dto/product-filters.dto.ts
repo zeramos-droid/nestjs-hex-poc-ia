@@ -55,8 +55,8 @@ export class ProductFiltersDto implements IProductFiltersDTO {
 
   @IsOptional()
   @IsString()
-  @IsIn(['name', 'price', 'createdAt', 'updatedAt'])
-  sortBy?: 'name' | 'price' | 'createdAt' | 'updatedAt';
+  @IsIn(['name', 'price', 'createdAt', 'stock'])
+  sortBy?: 'name' | 'price' | 'createdAt' | 'stock';
 
   @IsOptional()
   @IsString()
