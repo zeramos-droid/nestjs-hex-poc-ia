@@ -1,9 +1,9 @@
-import { Product } from '../../entities/product.entity';
-import { ICreateProductDTO } from '../dtos/create-product.dto';
-import { IUpdateProductDTO } from '../dtos/update-product.dto';
-import { IProductFiltersDTO } from '../dtos/product-filters.dto';
-import { IPaginationResultDTO } from '../dtos/pagination-result.dto';
-import { IProductResponseDTO } from '../dtos/product-response.dto';
+import { Product } from '../entities/product.entity';
+import { ICreateProductDTO } from './dtos/create-product.dto';
+import { IUpdateProductDTO } from './dtos/update-product.dto';
+import { IProductFiltersDTO } from './dtos/product-filters.dto';
+import { IPaginationResultDTO } from './dtos/pagination-result.dto';
+import { IProductResponseDTO } from './dtos/product-response.dto';
 
 export interface IProductRepository {
   create(data: ICreateProductDTO): Promise<Product>;
