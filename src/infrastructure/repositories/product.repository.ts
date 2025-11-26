@@ -286,7 +286,7 @@ export class ProductRepository implements IProductRepository {
       id: entity.id,
       name: entity.name,
       description: entity.description,
-      price: entity.price,
+      price: typeof entity.price === 'string' ? parseFloat(entity.price) : entity.price,
       stock: entity.stock,
       sku: entity.sku,
       categoryId: entity.categoryId,
